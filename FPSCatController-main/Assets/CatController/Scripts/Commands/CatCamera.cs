@@ -6,9 +6,9 @@ public class CatCamera : MonoBehaviour
     [SerializeField] private CinemachineVirtualCamera cinemachineCamera;
     [SerializeField] private float rotationSpeed = 10f;
     [SerializeField] private float cameraSensitivity = 2f;
+    [SerializeField] private Transform characterTransform; // Reference to CatRoot
 
     private float cameraPitch = 0f;
-    private float characterYaw = 0f;
 
     void Awake()
     {
@@ -20,13 +20,23 @@ public class CatCamera : MonoBehaviour
                 Debug.LogError("CinemachineVirtualCamera not found in CatCamera!");
             }
         }
+        if (characterTransform == null)
+        {
+            characterTransform = transform.parent; // Assume parent is CatRoot
+            if (characterTransform == null)
+            {
+                Debug.LogError("Character Transform not assigned in CatCamera!");
+            }
+        }
     }
 
     public void Rotate(Vector2 lookInput)
     {
-        characterYaw += lookInput.x * cameraSensitivity * rotationSpeed * Time.deltaTime;
-        transform.rotation = Quaternion.Euler(0f, characterYaw, 0f);
+        // Horizontal rotation (yaw) - Rotate the character (CatRoot)
+        float yaw = lookInput.x * cameraSensitivity * rotationSpeed * Time.deltaTime;
+        characterTransform.Rotate(0f, yaw, 0f);
 
+        // Vertical rotation (pitch) - Rotate the camera locally
         cameraPitch -= lookInput.y * cameraSensitivity * rotationSpeed * Time.deltaTime;
         cameraPitch = Mathf.Clamp(cameraPitch, -90f, 90f);
         cinemachineCamera.transform.localRotation = Quaternion.Euler(cameraPitch, 0f, 0f);

@@ -544,7 +544,7 @@ Camera:
     height: 1
   near clip plane: 0.1
   far clip plane: 5000
-  field of view: 40
+  field of view: 60
   orthographic: 0
   orthographic size: 10
   m_Depth: 0
@@ -4090,7 +4090,7 @@ MonoBehaviour:
   m_LookAt: {fileID: 0}
   m_Follow: {fileID: 8987210791168739046}
   m_Lens:
-    FieldOfView: 40
+    FieldOfView: 60
     OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
@@ -4123,6 +4123,7 @@ MonoBehaviour:
   cinemachineCamera: {fileID: 2109524324809966702}
   rotationSpeed: 10
   cameraSensitivity: 2
+  characterTransform: {fileID: 8987210791168739046}
 --- !u!65 &2110853332866106716
 BoxCollider:
   m_ObjectHideFlags: 0
