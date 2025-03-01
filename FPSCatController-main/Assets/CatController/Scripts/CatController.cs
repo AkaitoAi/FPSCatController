@@ -6,8 +6,8 @@ using Cinemachine;
 public class CatController : MonoBehaviour
 {
     // Components
+    [SerializeField] private Animator animator;
     private CharacterController controller;
-    private Animator animator;
     private CinemachineVirtualCamera cinemachineCamera;
     private PlayerInput playerInput;
 
@@ -29,10 +29,18 @@ public class CatController : MonoBehaviour
     private float cameraPitch = 0f;  // Vertical rotation
     private float characterYaw = 0f; // Horizontal rotation
 
+    // Animator parameter hashes
+    private static readonly int GrabHash = Animator.StringToHash("grab");
+    private static readonly int AttachHash = Animator.StringToHash("attack");
+    private static readonly int IsWalkingHash = Animator.StringToHash("isWalking");
+    private static readonly int WalkStateHash = Animator.StringToHash("walk_state");
+    private static readonly int IdleStateHash = Animator.StringToHash("idle_state");
+    private static readonly int JumpHash = Animator.StringToHash("jump");
+
     void Start()
     {
+        // Initialize components
         controller = GetComponent<CharacterController>();
-        animator = GetComponentInChildren<Animator>();
         playerInput = GetComponent<PlayerInput>();
         cinemachineCamera = GetComponentInChildren<CinemachineVirtualCamera>();
 
@@ -66,7 +74,7 @@ public class CatController : MonoBehaviour
         if (context.performed && isGrounded)
         {
             velocity.y = jumpForce;
-            animator.SetTrigger("Jump");
+            animator.SetTrigger(JumpHash);
         }
     }
 
@@ -75,7 +83,15 @@ public class CatController : MonoBehaviour
         isGrabbing = context.ReadValueAsButton();
         if (context.performed)
         {
-            animator.SetTrigger("Grab");
+            animator.SetTrigger(GrabHash);
+        }
+    }
+
+    public void OnAttach(InputAction.CallbackContext context)
+    {
+        if (context.performed && isGrounded)
+        {
+            animator.SetTrigger(AttachHash);
         }
     }
 
@@ -89,7 +105,7 @@ public class CatController : MonoBehaviour
         // Calculate 3D movement direction based on camera orientation
         Vector3 moveDirection = new Vector3(moveInput.x, 0f, moveInput.y).normalized;
 
-        // Transform direction from local to world space relative to camera
+        // Transform direction from local to world space relative to camera yaw
         moveDirection = Quaternion.Euler(0, characterYaw, 0) * moveDirection;
 
         // Apply movement
@@ -106,7 +122,7 @@ public class CatController : MonoBehaviour
         cameraPitch -= lookInput.y * cameraSensitivity * rotationSpeed * Time.deltaTime;
         cameraPitch = Mathf.Clamp(cameraPitch, -90f, 90f);
 
-        // Apply vertical rotation to camera
+        // Apply vertical rotation to Cinemachine camera
         cinemachineCamera.transform.localRotation = Quaternion.Euler(cameraPitch, 0f, 0f);
     }
 
@@ -125,21 +141,29 @@ public class CatController : MonoBehaviour
     {
         float speed = moveInput.magnitude;
 
-        animator.SetFloat("Speed", speed);
-        animator.SetBool("IsGrounded", isGrounded);
-        animator.SetBool("IsGrabbing", isGrabbing);
+        // Set walking state
+        animator.SetBool(IsWalkingHash, speed > 0.1f && isGrounded);
 
-        // Animation state machine
         if (isGrounded)
         {
             if (speed > 0.1f)
             {
-                animator.Play(isGrabbing ? "WalkGrab" : "Walk");
+                // Walk Blend Tree: 0 = Simple Walk, 1 = Grab Walk
+                animator.SetFloat(WalkStateHash, isGrabbing ? 1f : 0f);
+                animator.SetFloat(IdleStateHash, 0f); // Reset idle when walking
             }
             else
             {
-                animator.Play(isGrabbing ? "IdleGrab" : "Idle");
+                // Idle Blend Tree: 0 = Idle, 1 = Idle Grab
+                animator.SetFloat(IdleStateHash, isGrabbing ? 1f : 0f);
+                animator.SetFloat(WalkStateHash, 0f); // Reset walk when idle
             }
+        }
+        else
+        {
+            // Reset both blend trees when in air
+            animator.SetFloat(WalkStateHash, 0f);
+            animator.SetFloat(IdleStateHash, 0f);
         }
     }
 }
