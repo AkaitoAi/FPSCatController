@@ -340,24 +340,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1757969526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 864607810451188543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 169a33abe91dbb14888f8a69fee07c2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  animator: {fileID: 6216779427720712576}
-  moveSpeed: 5
-  rotationSpeed: 10
-  jumpForce: 5
-  gravity: -9.81
-  cameraSensitivity: 2
 --- !u!114 &1757969532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -385,8 +367,8 @@ MonoBehaviour:
   m_ActionEvents:
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1757969526}
-        m_TargetAssemblyTypeName: CatController, Assembly-CSharp
+      - m_Target: {fileID: 8987210791168739048}
+        m_TargetAssemblyTypeName: CatInput, Assembly-CSharp
         m_MethodName: OnMove
         m_Mode: 0
         m_Arguments:
@@ -401,8 +383,8 @@ MonoBehaviour:
     m_ActionName: Cat/Move[/Keyboard/w,/Keyboard/s,/Keyboard/a,/Keyboard/d]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1757969526}
-        m_TargetAssemblyTypeName: CatController, Assembly-CSharp
+      - m_Target: {fileID: 8987210791168739048}
+        m_TargetAssemblyTypeName: CatInput, Assembly-CSharp
         m_MethodName: OnLook
         m_Mode: 0
         m_Arguments:
@@ -417,8 +399,8 @@ MonoBehaviour:
     m_ActionName: Cat/Look[/Mouse/delta]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1757969526}
-        m_TargetAssemblyTypeName: CatController, Assembly-CSharp
+      - m_Target: {fileID: 8987210791168739048}
+        m_TargetAssemblyTypeName: CatInput, Assembly-CSharp
         m_MethodName: OnJump
         m_Mode: 0
         m_Arguments:
@@ -433,8 +415,8 @@ MonoBehaviour:
     m_ActionName: Cat/Jump[/Keyboard/space]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1757969526}
-        m_TargetAssemblyTypeName: CatController, Assembly-CSharp
+      - m_Target: {fileID: 8987210791168739048}
+        m_TargetAssemblyTypeName: CatInput, Assembly-CSharp
         m_MethodName: OnGrab
         m_Mode: 0
         m_Arguments:
@@ -449,9 +431,9 @@ MonoBehaviour:
     m_ActionName: Cat/Grab[/Mouse/leftButton]
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1757969526}
-        m_TargetAssemblyTypeName: CatController, Assembly-CSharp
-        m_MethodName: OnAttach
+      - m_Target: {fileID: 8987210791168739048}
+        m_TargetAssemblyTypeName: CatInput, Assembly-CSharp
+        m_MethodName: OnAttack
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3246,7 +3228,9 @@ GameObject:
   - component: {fileID: 8987210791168739046}
   - component: {fileID: 4020536803087134626}
   - component: {fileID: 1757969532}
-  - component: {fileID: 1757969526}
+  - component: {fileID: 8987210791168739049}
+  - component: {fileID: 8987210791168739048}
+  - component: {fileID: 8987210791168739047}
   m_Layer: 3
   m_Name: Cat
   m_TagString: Player
@@ -3473,6 +3457,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2109524324809966701}
   - component: {fileID: 2109524324809966702}
+  - component: {fileID: 2109524324809966703}
   m_Layer: 9
   m_Name: FPS Camera
   m_TagString: Untagged
@@ -4123,6 +4108,21 @@ MonoBehaviour:
         m_Calls: []
   m_LegacyBlendHint: 0
   m_ComponentOwner: {fileID: 905655733}
+--- !u!114 &2109524324809966703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1261475595467462550}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d784c31e3ad9024418798fb1bdd79485, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cinemachineCamera: {fileID: 2109524324809966702}
+  rotationSpeed: 10
+  cameraSensitivity: 2
 --- !u!65 &2110853332866106716
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -11546,6 +11546,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4176636294804482448}
   - component: {fileID: 6216779427720712576}
+  - component: {fileID: 6216779427720712577}
   m_Layer: 13
   m_Name: Hand_Cat
   m_TagString: Untagged
@@ -21556,6 +21557,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6216779427720712577
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4006890203758663664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59d2169f4c343524ca86e78954029193, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animator: {fileID: 6216779427720712576}
 --- !u!95 &6232822051748592751
 Animator:
   serializedVersion: 5
@@ -31543,6 +31557,49 @@ Transform:
   - {fileID: 1028823204275722999}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: -0, z: -0}
+--- !u!114 &8987210791168739047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864607810451188543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 169a33abe91dbb14888f8a69fee07c2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: {fileID: 8987210791168739049}
+  camera: {fileID: 2109524324809966703}
+  animator: {fileID: 6216779427720712577}
+--- !u!114 &8987210791168739048
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864607810451188543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec1649bd3bcbc1240b4905e8eeec3205, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controller: {fileID: 8987210791168739047}
+--- !u!114 &8987210791168739049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864607810451188543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ca7525093ad315428705e0d105e1868, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  moveSpeed: 5
+  jumpForce: 5
+  gravity: -9.81
 --- !u!198 &9072311903576573958
 ParticleSystem:
   m_ObjectHideFlags: 0
