@@ -45,12 +45,10 @@ public class LookCommand : ICommand
 public class JumpCommand : ICommand
 {
     private readonly CatMovement movement;
-    private readonly IAnimatorController animator;
 
-    public JumpCommand(CatMovement movement, IAnimatorController animator)
+    public JumpCommand(CatMovement movement)
     {
         this.movement = movement;
-        this.animator = animator;
     }
 
     public void Execute()
@@ -58,16 +56,15 @@ public class JumpCommand : ICommand
         if (movement.IsGrounded)
         {
             movement.Jump();
-            animator.TriggerJump();
         }
     }
 }
 
 public class GrabCommand : ICommand
 {
-    private readonly IAnimatorController animator;
+    private readonly CatAnimator animator;
 
-    public GrabCommand(IAnimatorController animator)
+    public GrabCommand(CatAnimator animator)
     {
         this.animator = animator;
     }
@@ -80,10 +77,10 @@ public class GrabCommand : ICommand
 
 public class AttackCommand : ICommand
 {
-    private readonly IAnimatorController animator;
+    private readonly CatAnimator animator;
     private readonly CatMovement movement;
 
-    public AttackCommand(IAnimatorController animator, CatMovement movement)
+    public AttackCommand(CatAnimator animator, CatMovement movement)
     {
         this.animator = animator;
         this.movement = movement;

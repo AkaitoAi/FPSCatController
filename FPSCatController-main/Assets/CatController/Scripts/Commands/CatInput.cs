@@ -43,7 +43,7 @@ public class CatInput : MonoBehaviour
     {
         if (context.performed)
         {
-            controller.ExecuteCommand(new JumpCommand(controller.Movement, controller.Animator));
+            controller.ExecuteCommand(new JumpCommand(controller.Movement));
         }
     }
 
@@ -52,15 +52,15 @@ public class CatInput : MonoBehaviour
         inputState.IsGrabbing = context.ReadValueAsButton();
         if (context.performed)
         {
-            controller.ExecuteCommand(new GrabCommand(controller.Animator));
+            controller.ExecuteCommand(new GrabCommand((CatAnimator)controller.Animator));
         }
     }
 
-    public void OnAttack(InputAction.CallbackContext context)
+    public void OnAttach(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
-            controller.ExecuteCommand(new AttackCommand(controller.Animator, controller.Movement));
+            controller.ExecuteCommand(new AttackCommand((CatAnimator)controller.Animator, controller.Movement));
         }
     }
 }

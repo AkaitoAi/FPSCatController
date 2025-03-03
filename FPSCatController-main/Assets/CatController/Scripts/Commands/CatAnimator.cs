@@ -11,6 +11,10 @@ public class CatAnimator : MonoBehaviour, IAnimatorController
     private static readonly int IdleStateHash = Animator.StringToHash("idle_state");
     private static readonly int JumpHash = Animator.StringToHash("jump");
 
+    public event System.Action OnJumpTriggered;
+    public event System.Action OnGrabTriggered;
+    public event System.Action OnAttackTriggered;
+
     void Awake()
     {
         if (animator == null)
@@ -46,15 +50,18 @@ public class CatAnimator : MonoBehaviour, IAnimatorController
     public void TriggerJump()
     {
         animator.SetTrigger(JumpHash);
+        OnJumpTriggered?.Invoke();
     }
 
     public void TriggerGrab()
     {
         animator.SetTrigger(GrabHash);
+        OnGrabTriggered?.Invoke();
     }
 
     public void TriggerAttack()
     {
         animator.SetTrigger(AttackHash);
+        OnAttackTriggered?.Invoke();
     }
 }

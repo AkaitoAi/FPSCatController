@@ -9,16 +9,26 @@ public class CatMovement : MonoBehaviour
 
     private CharacterController controller;
     private Vector3 velocity;
+    private bool wasGrounded;
     public bool IsGrounded { get; private set; }
+
+    public event System.Action<bool> OnGroundedChanged;
 
     void Awake()
     {
         controller = GetComponent<CharacterController>();
+        wasGrounded = controller.isGrounded;
     }
 
     public void Move(Vector2 input)
     {
         IsGrounded = controller.isGrounded;
+
+        if (IsGrounded != wasGrounded)
+        {
+            OnGroundedChanged?.Invoke(IsGrounded);
+            wasGrounded = IsGrounded;
+        }
 
         Vector3 moveDirection = new Vector3(input.x, 0f, input.y).normalized;
         moveDirection = Quaternion.Euler(0, transform.eulerAngles.y, 0) * moveDirection;
