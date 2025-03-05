@@ -5,8 +5,16 @@ using UnityEngine.InputSystem;
 public class CatInput : MonoBehaviour
 {
     [SerializeField] private CatController controller;
+    [SerializeField] private LookAreaInput lookArea; // Optional: Reference to look area
+    [SerializeField] private float mouseSensitivity = 1f; // Sensitivity for mouse input
+    [SerializeField] private float touchSensitivity = 1f; // Sensitivity for UI drag input
+    [SerializeField] private float lookSmoothing = 0.1f; // New: Smoothing factor for look input
+
     private PlayerInput playerInput;
     private InputState inputState;
+    private bool useLookArea; // Flag to determine which input method to use
+    private Vector2 currentLookVelocity; // New: Current smoothed look value
+    private Vector2 targetLookVelocity; // New: Target look value to smooth towards
 
     void Awake()
     {
@@ -20,12 +28,36 @@ public class CatInput : MonoBehaviour
             return;
         }
 
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
+        // Determine input method based on whether lookArea is assigned
+        useLookArea = lookArea != null;
+        if (!useLookArea)
+        {
+            Debug.Log("LookAreaInput not assigned. Falling back to mouse input.");
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+        }
+        else if (lookArea == null)
+        {
+            Debug.LogError("LookAreaInput reference is null but was expected. Disabling component.");
+            enabled = false;
+            return;
+        }
     }
 
     void Update()
     {
+        if (useLookArea)
+        {
+            // Use UI drag input with sensitivity
+            Vector2 rawLookInput = lookArea.LookInput * touchSensitivity;
+            targetLookVelocity = rawLookInput;
+        }
+
+        // Smooth the look input
+        currentLookVelocity = Vector2.Lerp(currentLookVelocity, targetLookVelocity,
+            lookSmoothing > 0 ? Time.deltaTime / lookSmoothing : 1f);
+        inputState.Look = currentLookVelocity;
+
         controller.UpdateState(inputState);
     }
 
@@ -36,7 +68,12 @@ public class CatInput : MonoBehaviour
 
     public void OnLook(InputAction.CallbackContext context)
     {
-        inputState.Look = context.ReadValue<Vector2>();
+        // Only process mouse input with sensitivity if we're not using LookAreaInput
+        if (!useLookArea)
+        {
+            Vector2 rawMouseInput = context.ReadValue<Vector2>() * mouseSensitivity;
+            targetLookVelocity = rawMouseInput;
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context)

@@ -53,10 +53,7 @@ public class JumpCommand : ICommand
 
     public void Execute()
     {
-        if (movement.IsGrounded)
-        {
-            movement.Jump();
-        }
+        movement.Jump(); // No need to check IsGrounded here anymore
     }
 }
 

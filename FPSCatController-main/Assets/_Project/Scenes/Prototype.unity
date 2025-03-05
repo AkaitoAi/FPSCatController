@@ -720,6 +720,7 @@ GameObject:
   - component: {fileID: 1601172626}
   - component: {fileID: 1601172628}
   - component: {fileID: 1601172627}
+  - component: {fileID: 1601172629}
   m_Layer: 5
   m_Name: Look
   m_TagString: Untagged
@@ -784,6 +785,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1601172625}
   m_CullTransparentMesh: 1
+--- !u!114 &1601172629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1601172625}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 227c75be712290a4aa83af1a8950976c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1757969532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32042,6 +32055,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 8987210791168739047}
+  lookArea: {fileID: 1601172629}
+  mouseSensitivity: 1
+  touchSensitivity: 1
+  lookSmoothing: 0.05
 --- !u!114 &8987210791168739049
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32057,6 +32074,8 @@ MonoBehaviour:
   moveSpeed: 5
   jumpForce: 5
   gravity: -9.81
+  movementSmoothing: 0.1
+  coyoteTime: 0.2
 --- !u!198 &9072311903576573958
 ParticleSystem:
   m_ObjectHideFlags: 0
