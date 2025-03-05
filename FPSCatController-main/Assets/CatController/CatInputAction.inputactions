@@ -131,6 +131,17 @@
                 },
                 {
                     "name": "",
+                    "id": "f3a9d5df-f4eb-4f89-99bd-0a66e67a88c8",
+                    "path": "<Gamepad>/leftStick",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "26a37cc7-f8db-465b-97cf-34f1fa8c2a8c",
                     "path": "<Mouse>/delta",
                     "interactions": "",
