@@ -93,7 +93,7 @@ public class CatInput : MonoBehaviour
         }
     }
 
-    public void OnAttach(InputAction.CallbackContext context)
+    public void OnAttack(InputAction.CallbackContext context)
     {
         if (context.performed)
         {
